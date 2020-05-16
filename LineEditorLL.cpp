@@ -1,6 +1,3 @@
-// LineEditorLL.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,16 +7,17 @@ class LinkedList
 	//Simple node class to hold values and the pointer to the next node.
 	struct Node
 	{
-		Node* next;
+		Node *next;
 		string val;
-		Node(string v) : next(nullptr), val(v) {};
+		Node(string v) : next(nullptr), val(v){};
 	};
-	Node* head;
+	Node *head;
 	int size;
+
 public:
-	LinkedList() : head(nullptr), size(0) {};
+	LinkedList() : head(nullptr), size(0){};
 	//Splits the given text  into 80 character segments if needed
-	void splitText(vector<string>& strings, string& textToAdd)
+	void splitText(vector<string> &strings, string &textToAdd)
 	{
 		while (textToAdd.length() > 80)
 		{
@@ -36,14 +34,14 @@ public:
 		splitText(strings, textToAdd);
 		for (string text : strings)
 		{
-			Node* newNode = new Node(text);
+			Node *newNode = new Node(text);
 			if (head == nullptr)
 			{
 				head = newNode;
 				size++;
 				continue;
 			}
-			Node* temp = head;
+			Node *temp = head;
 			while (temp->next != nullptr)
 			{
 				temp = temp->next;
@@ -52,21 +50,23 @@ public:
 			size++;
 		}
 	}
-	void insert(int index, string textToAdd) {
-		if (index >= size + 2 || index <= 0) return;
+	void insert(int index, string textToAdd)
+	{
+		if (index >= size + 2 || index <= 0)
+			return;
 		vector<string> strings;
 		splitText(strings, textToAdd);
 		int counter = index - 2;
 		for (string text : strings)
 		{
-			Node* newNode = new Node(text);
+			Node *newNode = new Node(text);
 			if (head == nullptr)
 			{
 				head = newNode;
 				size++;
 				continue;
 			}
-			Node* temp = head;
+			Node *temp = head;
 			if (index == 1 && counter == -1)
 			{
 				newNode->next = temp;
@@ -85,25 +85,28 @@ public:
 			size++;
 		}
 	}
-	void deleteNode(int index) {
-		if (index >= size + 1 || index <= 0 || head == nullptr) return;
-		Node* temp = head;
-		Node* beforeTemp = head;
+	void deleteNode(int index)
+	{
+		if (index >= size + 1 || index <= 0 || head == nullptr)
+			return;
+		Node *temp = head;
+		Node *beforeTemp = head;
 		bool runThroughOnce = false;
-		if (index == 1) {
+		if (index == 1)
+		{
 			head = temp->next;
 			delete temp;
 			size--;
 			return;
 		}
-		while (index > 1) 
+		while (index > 1)
 		{
 			temp = temp->next;
-			if (!runThroughOnce) 
+			if (!runThroughOnce)
 			{
 				runThroughOnce = true;
 			}
-			else 
+			else
 			{
 				beforeTemp = beforeTemp->next;
 			}
@@ -114,27 +117,29 @@ public:
 		size--;
 		return;
 	}
-	void edit(int index, string textToAdd) {
-		if (index >= size + 2 || index <= 0 || head==nullptr) return;
+	void edit(int index, string textToAdd)
+	{
+		if (index >= size + 2 || index <= 0 || head == nullptr)
+			return;
 		vector<string> strings;
 		splitText(strings, textToAdd);
 		int counter = index - 1;
 		bool edited = false;
 		for (string text : strings)
 		{
-			Node* temp = head;
+			Node *temp = head;
 			for (int i = 0; i < counter; i++)
 			{
 				temp = temp->next;
 			}
-			if (!edited) 
+			if (!edited)
 			{
 				temp->val = text;
 				edited = true;
 			}
-			else  
+			else
 			{
-				Node* newNode = new Node(text);
+				Node *newNode = new Node(text);
 				newNode->next = temp->next;
 				temp->next = newNode;
 				counter++;
@@ -142,13 +147,14 @@ public:
 			}
 		}
 	}
-	void search(string text) { //TODO DO IMPLEMENTATION WITH TEXT BEING OVER 80 CHARS
+	void search(string text)
+	{ //TODO DO IMPLEMENTATION WITH TEXT BEING OVER 80 CHARS
 		bool found = false;
 		int line = 1;
-		Node* temp = head;
+		Node *temp = head;
 		while (temp != nullptr)
 		{
-			if (temp->val.find(text) != -1) 
+			if (temp->val.find(text) != -1)
 			{
 				found = true;
 				cout << line << " " << temp->val << "\n";
@@ -157,16 +163,16 @@ public:
 			temp = temp->next;
 		}
 
-
 		if (!found)
 		{
-			cout << "not found" << "\n";
+			cout << "not found"
+				 << "\n";
 		}
-	} 
+	}
 	//Prints the linked list
-	void print() 
+	void print()
 	{
-		Node* temp = head;
+		Node *temp = head;
 		int i = 1;
 		while (temp != nullptr)
 		{
@@ -176,14 +182,15 @@ public:
 	}
 };
 //Finds where the quotations starts, ends, and creates a string that doesn't contain the quotes
-string returnStringWithoutQuotes(string& input) {
+string returnStringWithoutQuotes(string &input)
+{
 	int pos = input.find("\"") + 1;
 	int end = input.length() - pos - 1;
 	string val = input.substr(pos, end);
 	return val;
 }
 //Gets the number  n from the format insert n "whatever text". Works with multiple digits
-int getIndexFromInput(string& input) 
+int getIndexFromInput(string &input)
 {
 	int firstPos = -1;
 	for (int i = 0; i < input.length(); i++)
@@ -198,18 +205,18 @@ int getIndexFromInput(string& input)
 			return stoi(input.substr(firstPos, i - firstPos));
 		}
 	}
-	if (firstPos != -1) 
+	if (firstPos != -1)
 	{
 		return stoi(input.substr(firstPos, input.length()));
 	}
 	return -1;
 }
 int main()
-{	
+{
 	LinkedList list;
 	string input = "";
-	while (getline(cin,input)) 
-	{	
+	while (getline(cin, input))
+	{
 		//Get the first word from whatever the user typed in
 		string command = input.substr(0, input.find_first_of(" "));
 		if (command == "insertEnd")
@@ -217,7 +224,7 @@ int main()
 			list.insertEnd(returnStringWithoutQuotes(input));
 		}
 		else if (command == "insert")
-		{	
+		{
 			int index = getIndexFromInput(input);
 			list.insert(index, returnStringWithoutQuotes(input));
 		}
@@ -234,25 +241,15 @@ int main()
 		{
 			list.search(returnStringWithoutQuotes(input));
 		}
-		else if (command == "delete") {
+		else if (command == "delete")
+		{
 			int index = getIndexFromInput(input);
 			list.deleteNode(index);
 		}
-		if (input == "quit") 
+		if (input == "quit")
 		{
 			return 0;
 		}
 	}
 	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
