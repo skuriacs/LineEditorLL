@@ -147,19 +147,49 @@ public:
 			}
 		}
 	}
+	//This function is used in the search function to print out multiple lines if their values
+	//do match up with the inputted search string
+	void printResults(Node *start, int counter, int lineNumber)
+	{
+		for (int i = 0; i < counter; i++)
+		{
+			cout << lineNumber << " " << start->val << "\n";
+			lineNumber++;
+			start = start->next;
+		}
+	}
 	void search(string text)
 	{ //TODO DO IMPLEMENTATION WITH TEXT BEING OVER 80 CHARS
 		bool found = false;
 		int line = 1;
 		Node *temp = head;
-		while (temp != nullptr)
+		vector<string> strings;
+		splitText(strings, text);
+		//Created a double for loop to look through each node of the Linked List and then look ahead
+		//future nodes to see if their values match up with the next strings in the vector.
+		//This only occurs when the inputted search string is more than 80 chars.
+		for (int i = 0; i <= size - strings.size(); i++)
 		{
-			if (temp->val.find(text) != -1)
+			Node *lookahead = temp;
+			for (int j = 0; j < strings.size(); j++)
 			{
-				found = true;
-				cout << line << " " << temp->val << "\n";
+				if (j != strings.size() - 1)
+				{
+					if (lookahead->val != strings[j])
+					{
+						break;
+					}
+				}
+				else
+				{
+					if (lookahead->val.find(text) != -1)
+					{
+						found = true;
+						printResults(temp, strings.size(), i + 1);
+					}
+				}
+				lookahead = lookahead->next;
 			}
-			line++;
 			temp = temp->next;
 		}
 
@@ -246,7 +276,7 @@ int main()
 			int index = getIndexFromInput(input);
 			list.deleteNode(index);
 		}
-		if (input == "quit")
+		else if (input == "quit")
 		{
 			return 0;
 		}
