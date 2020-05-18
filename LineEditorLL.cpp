@@ -50,6 +50,8 @@ public:
 			size++;
 		}
 	}
+	//Adds a node to certain index if the index is in the valid range, 1 - size + 1. Pushes down all
+	//the other nodes down the linked list
 	void insert(int index, string textToAdd)
 	{
 		if (index >= size + 2 || index <= 0)
@@ -85,6 +87,7 @@ public:
 			size++;
 		}
 	}
+	//Deletes a node at a given spot if the range is valid. Pushes all the nodes after up.
 	void deleteNode(int index)
 	{
 		if (index >= size + 1 || index <= 0 || head == nullptr)
@@ -117,6 +120,8 @@ public:
 		size--;
 		return;
 	}
+	//Edits a given a node in the valid range. If the edited node is over 80 chars, then new nodes will
+	//be created to hold those extra characters
 	void edit(int index, string textToAdd)
 	{
 		if (index >= size + 2 || index <= 0 || head == nullptr)
