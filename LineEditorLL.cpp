@@ -168,6 +168,8 @@ public:
 	}
 	void search(string text)
 	{
+		if (size == 0)
+			return;
 		bool found = false;
 		int line = 1;
 		Node *temp = head;
