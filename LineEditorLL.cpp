@@ -86,6 +86,7 @@ public:
 			newNode->next = temp->next;
 			temp->next = newNode;
 			size++;
+			index++;
 		}
 	}
 
@@ -126,7 +127,7 @@ public:
 	//be created to hold those extra characters
 	void edit(int index, string textToAdd)
 	{
-		if (index >= size + 2 || index <= 0 || head == nullptr)
+		if (index > size || index <= 0 || head == nullptr)
 			return;
 		vector<string> strings;
 		splitText(strings, textToAdd);
@@ -166,7 +167,7 @@ public:
 		}
 	}
 	void search(string text)
-	{ //TODO DO IMPLEMENTATION WITH TEXT BEING OVER 80 CHARS
+	{
 		bool found = false;
 		int line = 1;
 		Node *temp = head;
@@ -189,7 +190,7 @@ public:
 				}
 				else
 				{
-					if (lookahead->val.find(text) != -1)
+					if (lookahead->val.find(strings[j]) != -1)
 					{
 						found = true;
 						printResults(temp, strings.size(), i + 1);
@@ -234,6 +235,10 @@ int getIndexFromInput(string &input)
 	{
 		if (isdigit(input[i]) && firstPos == -1)
 		{
+			if (input[i - 1] == '-')
+			{
+				return -1;
+			}
 			firstPos = i;
 			continue;
 		}
