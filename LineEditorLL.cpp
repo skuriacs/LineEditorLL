@@ -50,6 +50,7 @@ public:
 			size++;
 		}
 	}
+
 	//Adds a node to certain index if the index is in the valid range, 1 - size + 1. Pushes down all
 	//the other nodes down the linked list
 	void insert(int index, string textToAdd)
@@ -58,35 +59,36 @@ public:
 			return;
 		vector<string> strings;
 		splitText(strings, textToAdd);
-		int counter = index - 2;
-		for (string text : strings)
+		for (string s : strings)
 		{
-			Node *newNode = new Node(text);
+			Node *newNode = new Node(s);
 			if (head == nullptr)
 			{
 				head = newNode;
 				size++;
+				index++;
 				continue;
 			}
 			Node *temp = head;
-			if (index == 1 && counter == -1)
+			if (index == 1)
 			{
 				newNode->next = temp;
 				head = newNode;
+				index++;
 				size++;
 				continue;
 			}
 
-			for (int i = 0; i < counter; i++)
+			for (int i = 1; i < index - 1; i++)
 			{
 				temp = temp->next;
 			}
 			newNode->next = temp->next;
 			temp->next = newNode;
-			counter++;
 			size++;
 		}
 	}
+
 	//Deletes a node at a given spot if the range is valid. Pushes all the nodes after up.
 	void deleteNode(int index)
 	{
